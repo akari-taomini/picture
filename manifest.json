@@ -1,0 +1,19 @@
+{
+  "display_name": "主题素材发布助手",
+  "loading_order": 120,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "Private Extension",
+  "version": "1.0.0",
+  "homePage": "None",
+  "minimum_client_version": "1.19.0",
+  "hooks": {
+    "activate": "init",
+    "enable": "onEnable",
+    "disable": "onDisable",
+    "update": "onUpdate",
+    "clean": "onClean"
+  }
+}
