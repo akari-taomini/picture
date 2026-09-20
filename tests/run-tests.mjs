@@ -62,6 +62,22 @@ function jsonResponse(data, status = 200) {
     return new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } });
 }
 
+
+async function testFetchReceiverBinding() {
+    const strictFetch = async function(url) {
+        assert.equal(this, globalThis);
+        return jsonResponse({ ok: true, url });
+    };
+    const client = new GitHubClient({
+        githubOwner: 'owner',
+        githubRepo: 'repo',
+        githubBranch: 'main',
+        githubToken: 'token',
+    }, strictFetch);
+    const result = await client.request('/receiver-test');
+    assert.equal(result.ok, true);
+}
+
 async function testGitDataOneCommit() {
     const calls = [];
     let blobCounter = 0;
@@ -152,6 +168,7 @@ async function testResponsiveCss() {
 await testCssScanAndReplace();
 await testThemePreservation();
 await testSniffersAndHash();
+await testFetchReceiverBinding();
 await testGitDataOneCommit();
 await testPublishedJsonImportCompatibility();
 await testPrivateRepoRejectedForJsDelivr();
