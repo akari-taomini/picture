@@ -9,7 +9,7 @@ export const CONFIG = Object.freeze({
     githubOwner: 'akari-taomini',
     githubRepo: 'picture',
     githubBranch: 'main', // 例如 main
-    githubToken: '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',
+    githubToken: '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',
 });
 
 const EXTENSION_ID = 'theme-publisher';
