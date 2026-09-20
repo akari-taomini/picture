@@ -1,4 +1,4 @@
-# 测试报告 — theme-publisher 1.0.0
+# 测试报告 — theme-publisher 1.0.1
 
 测试基线：SillyTavern 1.19.0 release 的 UI Extension / Theme 结构。
 
@@ -27,3 +27,8 @@
 ## 最终发布版兼容性
 
 输出文件仍是普通 SillyTavern Theme JSON；插件不会往 JSON 中加入运行时依赖或 Token。普通用户导入时只会看到被替换后的 `custom_css` CDN URL，因此不要求安装 theme-publisher。
+
+
+## v1.0.1 regression
+
+- Added a fetch receiver-binding regression test. Native-style fetch is now invoked with `globalThis` as receiver, preventing `Failed to execute 'fetch' on 'Window': Illegal invocation`.

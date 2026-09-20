@@ -195,3 +195,9 @@ node tests/run-tests.mjs
 - 素材仓库必须为 **Public**；私有仓库虽然 GitHub API 上传可能成功，但 jsDelivr 无法提供公开 CDN，因此插件会在连接测试阶段直接拒绝。
 - 目标 branch 必须已经存在；新建空仓库时请先创建 README 或做一次初始 commit。
 - `Fine-grained PAT` 不应出现在公开主题 JSON；插件只把 CDN URL 写进发布 JSON，不会写入 Token。
+
+
+## v1.0.1 修复
+
+- 修复部分 Chromium/WebView/Safari 环境中 GitHub API 请求可能出现 `Failed to execute 'fetch' on 'Window': Illegal invocation` 的问题。
+- GitHub API 与远程素材读取现在显式使用正确绑定的浏览器 `fetch`。
