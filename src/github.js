@@ -30,10 +30,14 @@ async function blobToBase64(blob) {
 }
 
 export class GitHubClient {
-    constructor(config, fetchImpl = fetch) {
+    constructor(config, fetchImpl = globalThis.fetch) {
         validateGitHubConfig(config);
+        if (typeof fetchImpl !== 'function') throw new Error('当前浏览器环境不支持 fetch。');
         this.config = config;
-        this.fetch = fetchImpl;
+        // Some browser/WebView implementations require Window.fetch to be invoked
+        // with the global object as its receiver. Calling a detached native fetch as
+        // this.fetch(...) can otherwise throw: Illegal invocation.
+        this.fetch = (...args) => fetchImpl.call(globalThis, ...args);
         this.base = `https://api.github.com/repos/${encodeURIComponent(config.githubOwner)}/${encodeURIComponent(config.githubRepo)}`;
     }
 

@@ -2,6 +2,11 @@ import { getUniqueRemoteUrls } from './theme.js';
 
 export const JSDELIVR_GITHUB_FILE_LIMIT = 20 * 1024 * 1024;
 
+function browserFetch(...args) {
+    if (typeof globalThis.fetch !== 'function') throw new Error('当前浏览器环境不支持 fetch。');
+    return globalThis.fetch.call(globalThis, ...args);
+}
+
 function ascii(bytes, start, length) {
     return String.fromCharCode(...bytes.slice(start, start + length));
 }
@@ -87,14 +92,14 @@ export async function fetchRemoteAsset(url, { signal } = {}) {
 
     let directError = null;
     try {
-        const response = await fetch(url, directOptions);
+        const response = await browserFetch(url, directOptions);
         return await responseToAnalyzedAsset(response, url, 'direct');
     } catch (error) {
         directError = error;
     }
 
     try {
-        const response = await fetch(buildProxyUrl(url), {
+        const response = await browserFetch(buildProxyUrl(url), {
             method: 'GET',
             credentials: 'same-origin',
             cache: 'no-store',
